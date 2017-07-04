@@ -12,6 +12,17 @@ class v1API:
         self._base_google_maps_url="https://maps.googleapis.com/maps/api/directions/json?"
         self._base_weather_url="http://api.openweathermap.org/data/2.5/weather?"
 
+    def _get_keys(self):
+        file_name=input("Enter the name of the text file that contains the API Keys:")
+        file=open(file_name)
+        file_data=[]
+        for line in file:
+            if "\n" in line:
+                file_data.append(line[:-1])
+            else:
+                file_data.append(line)
+        self._GOOGLE_MAPS_API_KEY,self._OPEN_WEATHER_API_KEY=tuple(file_data)
+
     def origin_input(self):
         ##accepts the origin location input from the user
         while True:
@@ -64,6 +75,7 @@ class v1API:
 
 if __name__=="__main__":
     trobj1=v1API()
+    trobj1._get_keys()
     orig=trobj1.origin_input()
     dest=trobj1.destination_input()
     url=trobj1.build_google_url((orig,dest))
